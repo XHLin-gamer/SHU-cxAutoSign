@@ -56,3 +56,6 @@ pip install SHU-cxAutoSign
 
 最后`import SHU_cxAutoSign`就行了。
 
+## TODO
+- 去除登录模块对```selenium```的依赖
+
