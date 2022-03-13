@@ -16,7 +16,7 @@ me.username = '11111111' # 学号
 me.password = 'xxxxxxxx' # 密码 
 # 设置用户的qq，学号，密码
 
-me.login() #第一次先登陆
+me.login(me.username,me.password) #第一次先登陆
 
 me.loadUser(me.user_q) #可以从历史记录中复活cookies，如果cookies过期则再登陆一次即可
 
@@ -55,7 +55,7 @@ pip install SHU-cxAutoSign
 ```
 
 最后`import SHU_cxAutoSign`就行了。
-
+### 2022.3.12 去除登录模块对```selenium```的依赖
 ## TODO
-- 去除登录模块对```selenium```的依赖
+- 简化函数接口调用方式(如果有必要)
 

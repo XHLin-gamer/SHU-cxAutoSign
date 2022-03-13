@@ -6,7 +6,7 @@ me.user_qq = '66666666'
 me.username = '11111111'
 me.password = 'xxxxxxxx'
 me.login()
-
+me.loadUser()
 me.getClass()
 newEvent = me.getEvent()
 for i in newEvent:
@@ -21,6 +21,8 @@ for i in newEvent:
         me.locationSign(activeId=i["activeId"],latitude =latitude,longtitude=longtitude,address = address)
     if '二维码' in type:
         print('检测到二维码签到')
+        enc = 'xxxxxxxxxxxxxxxxxxxxxxxxxxx'
+        me.QRSign(i["activeId"],enc)
     if '拍照' in type:
         print('检测到拍照签到，咱解决不了')
     if '普通' in type:

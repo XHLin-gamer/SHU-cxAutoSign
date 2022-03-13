@@ -27,13 +27,7 @@ class_url = 'http://www.elearning.shu.edu.cn/courselist/coursedata?courseType=3&
 workDir = os.path.dirname(__file__)
 #workDir下保存用户的信息与cookies
 
-def cookie_to_cookiejar(cookies):
-    if not hasattr(cookies, "startswith"):
-        raise TypeError
-    cookiejar = requests.utils.cookiejar_from_dict(
-        {cookie[0]: cookie[1] for cookie in
-         [cookie.split("=", maxsplit=1) for cookie in cookies.split(";")]})
-    return cookiejar
+
 
 def deleteUser(user_qq):
     dataPath = os.path.join(workDir,"usersData.json")
@@ -72,38 +66,14 @@ class User():
             os.makedirs(os.path.join(workDir,"cookies"))
 
     def login(self):
-        ####################################################################
-        chrome_options = webdriver.ChromeOptions()
-        chrome_options.add_argument('--headless')
-        chrome_options.add_argument('--disable-gpu')
-        chrome_options.add_argument("window-size=428,843")
-        s = Service()
-        self.browser = webdriver.Chrome(options=chrome_options, service=s)
-        login_result = login(
-            self.browser, username=self.username, password=self.password)
-        # 利用selenium的登陆，因为selenium的性能开销太高，后续会逐步去除对其的依赖
-        if login_result:
-            self.name = self.browser.find_element(By.CLASS_NAME,'personalName').get_attribute('title')
-            self.uid = self.browser.get_cookie("UID")['value']  # 从cookie中获取签到关键参数——UID
-            cookies = self.browser.get_cookies()
-            cookie = ""
-            for dic1 in cookies:
-                name = dic1.get('name')
-                value = dic1.get('value')
-                cookie = cookie + f"{name}={value}; "
-            cookiejar = cookie_to_cookiejar(cookie.strip('; '))
-            self.session.cookies = cookiejar
-            # 将selenium登录所获得的cookie注入session
-            dataPath = os.path.join(os.path.dirname(
-                __file__), "cookies", str(self.user_qq))
+        self.name,self.yud,self.session = login(username=self.username, password=self.password)
+        
+        dataPath = os.path.join(os.path.dirname( __file__), "cookies", str(self.user_qq))
             # 本地保存cookie
-            with open(dataPath, 'wb') as f:
-                pickle.dump(self.session.cookies, f)
-                self.isSolid = True
-            return '登录成功'
-        else:
-            self.browser.quit()
-            return '登录失败'
+        with open(dataPath, 'wb') as f:
+            pickle.dump(self.session.cookies, f)
+            self.isSolid = True
+        return '登录成功'
 
     def loadUser(self, user_qq):
         usersData = getUsersData()
