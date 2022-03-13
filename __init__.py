@@ -66,7 +66,7 @@ class User():
             os.makedirs(os.path.join(workDir,"cookies"))
 
     def login(self):
-        self.name,self.yud,self.session = login(username=self.username, password=self.password)
+        self.name,self.uid,self.session = login(username=self.username, password=self.password)
         
         dataPath = os.path.join(os.path.dirname( __file__), "cookies", str(self.user_qq))
             # 本地保存cookie
